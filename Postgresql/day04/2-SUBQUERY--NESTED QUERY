@@ -1,0 +1,110 @@
+
+--24-SUBQUERY--NESTED QUERY
+
+--24-a-SUBQUERY: WHERE ile kullanımı
+
+
+--brands ve employees3 tablolarin da subquery calismasi yapalim
+
+/*Senaryo 1: marka_id si 100 olan firmada çalışanların bilgilerini listeleyiniz.*/
+/*Scenario 1: List the information of the employees of the company with brand_id 100.*/
+
+
+--1.yol: dinamik degil
+SELECT marka_isim FROM brands WHERE marka_id = 100; --Vakko
+
+SELECT * FROM employees3 WHERE isyeri = 'Vakko';
+
+
+SELECT * FROM employees3 WHERE isyeri = (SELECT marka_isim FROM brands WHERE marka_id = 100);
+
+
+/*Senaryo 2: (INTERVIEW QUESTION) employees3 tablosunda max maaşı alan çalışanın tüm fieldlarını listeleyiniz.*/
+/*Scenario 2: (INTERVIEW QUESTION) List all fields of the employee receiving the max salary in the employees3 table.*/
+
+SELECT * FROM employees3 WHERE maas = 7000;
+
+--SELECT * FROM employees3 WHERE maas = 7000; --7000'i elle yazdik, calisir ama olmaz
+
+SELECT * FROM employees3 WHERE maas = (SELECT MAX(maas) FROM employees3);
+
+
+--Interview Question: employees3 tablosunda ikinci en yüksek maaşı gösteriniz. (ORDER BY kullanmadan cozulecek)
+--Interview Question: Show the second highest salary in table employees3. (to be solved without using ORDER BY)
+
+SELECT MAX(maas) FROM employees3 --7000
+
+WHERE maas < (SELECT MAX(maas) FROM employees3); --3000
+
+
+
+
+/*Senaryo 3: employees3 tablosunda max veya min maaşı alan çalışanların tüm fieldlarını gösteriniz.*/
+/*Scenario 3: Show all fields of employees who receive max or min salary in table employees3.*/
+
+
+SELECT * 
+FROM employees3
+WHERE maas = (SELECT MAX(maas) FROM employees3) OR
+	  maas = (SELECT MIN(maas) FROM employees3);
+	  
+	  
+/*Senaryo 4: Ankara'da calisani olan markalarin marka id'lerini ve calisan sayilarini listeleyiniz.*/
+/*Scenario 4: List the brand ids and number of employees of brands with employees in Ankara.*/
+
+SELECT marka_id, calisan_sayisi
+FROM brands 
+WHERE marka_isim IN('Pierre Cardin','Adidas','Vakko');
+
+
+
+SELECT marka_id, calisan_sayisi 
+FROM brands 
+WHERE marka_isim IN(SELECT isyeri FROM employees3 WHERE sehir = 'Ankara');
+
+
+/*Senaryo 5: marka_id'si 101’den büyük olan marka çalişanlarinin tüm bilgilerini listeleyiniz.*/
+/*Scenario 5: list all information of brand employees with brand_id greater than 101.*/
+
+SELECT * 
+FROM employees3
+WHERE isyeri IN (SELECT marka_isim FROM brands WHERE marka_id > 101);
+
+
+
+/*Senaryo 6: Çalisan sayisi 15.000’den cok olan markalarin isimlerini, calisanlarin isimlerini ve maaşlarini listeleyiniz.*/
+/*Scenario 6: List the names of brands with more than 15,000 employees, the names of the employees and their salaries.*/
+
+
+SELECT isim, maas, isyeri 
+FROM employees3 
+WHERE isyeri IN (SELECT marka_isim 
+				 FROM brands 
+				 WHERE calisan_sayisi > 15000);
+				 
+				 
+                --24-b-SUBQUERY: SELECT komutundan sonra kullanımı	
+				
+/*Senaryo 7: Her markanin id'sini, ismini ve toplam kaç şehirde bulunduğunu listeleyen bir SORGU yaziniz.*/
+/*Scenario 7: Write a QUERY that lists the id, name and total number of cities each brand is located in.*/
+
+
+--DISTINCT: (Tekrar eden değerleri kaldırarak sorgu sonucunda yalnızca benzersiz değerleri döndürür.
+
+
+SELECT marka_id, marka_isim, (SELECT COUNT(sehir) FROM employees3 WHERE isyeri = marka_isim) FROM brands;
+
+
+SELECT marka_id, marka_isim, (SELECT COUNT(DISTINCT(sehir)) 
+FROM employees3 WHERE isyeri = marka_isim) AS sehir_sayisi FROM brands;
+
+
+
+/*Senaryo 8: Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin maksimum ve minimum maaşini listeleyen bir sorgu yaziniz.*/
+/*Scenario 8: Write a query that lists the name of each brand, the number of employees, and the maximum and minimum salary of the employees of that brand.*/
+
+--SELECT marka_isim, calisan_sayisi, (SELECT MAX(maas) FROM employees3 WHERE isyeri=marka_isim),
+
+SELECT marka_isim, calisan_sayisi, (SELECT MAX(maas) 
+									FROM employees3 WHERE isyeri=marka_isim),(SELECT MIN(maas)
+																			  FROM employees3 WHERE isyeri=marka_isim) FROM brands;

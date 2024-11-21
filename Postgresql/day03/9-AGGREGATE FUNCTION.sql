@@ -44,4 +44,42 @@ SELECT * FROM brands;
 SELECT * FROM employees3;
 
 
+--employees3 tablosunda max maaş değerini bulunuz.
+--Find the max salary value in the employees3 table.
+
+SELECT MIN(maas) FROM employees3;
+
+
+--employees3 tablosunda toplam maaş değerini bulunuz.
+--Find the total salary value in the employees3 table.
+
+SELECT SUM(maas) FROM employees3; --19000
+
+
+--employees3 tablosunda ortalama maaş değerini bulunuz.
+--Find the average salary value in the employees3 table.
+
+SELECT ROUND(AVG(maas), 2) FROM employees3; --2714.29
+
+
+--employees3 tablosundaki kayıt sayısını bulunuz.
+--Find the number of records in the employees3 table.
+
+
+
+--employees3 tablosunda maaşı 2500 olanların kayıt sayısını bulunuz.
+--Find the number of records of those whose salary is 2500 in the employees3 table.
+
+
+
+SELECT COUNT(*) FROM employees3; --7
+
+SELECT COUNT(id) FROM employees3; --7 null sayilmaz
+
+--employees3 tablosunda maaşı 2500 olanların kayıt sayısını bulunuz.
+--Find the number of records of those whose salary is 2500 in the employees3 table.
+
+SELECT COUNT(*) FROM employees3 WHERE maas = 2500; --2
+
+
 

@@ -1,0 +1,71 @@
+                           --26- UPDATE - UPDATE SET 
+ 
+ --26-UPDATE tablo_adı SET sütunadı=yeni değer 
+ --WHERE koşul 
+ -- koşulu sağlayan kayıtlar güncellenir
+ 
+ 
+ --employees4 adli bir tablo olusturalim
+
+
+ 
+ 
+ 
+CREATE TABLE employees4 (
+id INT UNIQUE, 
+isim VARCHAR(50), 
+sehir VARCHAR(50), 
+maas INT, 
+isyeri VARCHAR(20)
+);
+ 
+ 
+INSERT INTO employees4 VALUES(123456789, 'Ali Seker', 'Istanbul', 2500, 'Vakko');
+INSERT INTO employees4 VALUES(234567890, 'Ayse Gul', 'Istanbul', 1500, 'LCWaikiki');
+INSERT INTO employees4 VALUES(345678901, null, 'Ankara', 3000, 'Vakko');
+INSERT INTO employees4 VALUES(456789012, 'Veli Yilmaz', 'Izmir', 1000, 'Pierre Cardin');
+INSERT INTO employees4 VALUES(567890123, 'Veli Yilmaz', 'Ankara', 7000, 'Adidas');
+INSERT INTO employees4 VALUES(678901234, 'Ayse Gul', 'Ankara', 1500, 'Pierre Cardin');
+INSERT INTO employees4 VALUES(789012345, 'Fatma Yasa', null, 2500, 'Vakko');
+INSERT INTO employees4 VALUES(890123456, null, 'Bursa', 2500, 'Vakko');
+INSERT INTO employees4 VALUES(901234567, 'Ali Han', null, 2500, 'Vakko');
+
+SELECT * FROM employees4;
+
+
+
+/*Senaryo 1: employees4 adli bir tablo olusturunuz. id'si 123456789 olan çalışanın isyeri ismini 'Trendyol' olarak güncelleyiniz.*/
+/*Scenario 1: Create a table named employees4. update the workplace name of the employee whose id is 123456789 to 'Trendyol'.*/
+
+
+UPDATE employees4
+SET isyeri = 'Trendyol'
+WHERE id= 123456789;
+
+
+/*Senaryo 2: id'si 567890123 olan çalışanın ismini 'Veli Yıldırım' ve sehrini 'Bursa' olarak güncelleyiniz.*/
+/*Scenario 2: Update the name of the employee whose id is 567890123 as 'Veli Yıldırım' and the city as 'Bursa'.*/
+
+
+UPDATE employees4
+SET isim = 'Veli Yildirim', sehir = 'Bursa'
+WHERE id = 567890123;
+
+SELECT * FROM employees4;
+
+
+
+/*Senaryo 3: brands tablosundaki marka_id değeri 102’ye eşit veya büyük olanların marka_id'sini 2 ile çarparak değiştirin.*/
+/*Scenario 3: change the marka_id of brands in the brands table with a marka_id greater than or equal to 102 by multiplying by 2.*/
+
+
+SELECT * FROM brands;
+
+UPDATE brands
+SET marka_id = marka_id * 2
+WHERE marka_id >= 102;
+
+
+/*Senaryo 4: brands tablosundaki tüm markaların calisan_sayisi değerlerini marka_id ile toplayarak güncelleyiniz.*/
+/*Scenario 4: Update the calisan_sayisi values of all brands in the brands table by adding them with marka_id.*/
+
