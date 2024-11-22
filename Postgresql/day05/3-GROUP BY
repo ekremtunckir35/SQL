@@ -1,0 +1,80 @@
+---29-GROUP BY 
+
+--urunleri kategorilere gore gruplar.
+/* GROUP BY sayesinde her bir grupta
+    SUM
+	AVG
+	COUNT
+	MAX
+	 */
+	 
+--manav tablosu	 
+CREATE TABLE greengrocer
+(
+isim varchar(50),
+urun_adi varchar(50),
+urun_miktar int
+);	 
+
+
+INSERT INTO greengrocer VALUES( 'Ali', 'Elma', 5);
+INSERT INTO greengrocer VALUES( 'Ayse', 'Armut', 3);
+INSERT INTO greengrocer VALUES( 'Veli', 'Elma', 2);  
+INSERT INTO greengrocer VALUES( 'Hasan', 'Uzum', 4);  
+INSERT INTO greengrocer VALUES( 'Ali', 'Armut', 2);  
+INSERT INTO greengrocer VALUES( 'Ayse', 'Elma', 3);  
+INSERT INTO greengrocer VALUES( 'Veli', 'Uzum', 5);  
+INSERT INTO greengrocer VALUES( 'Ali', 'Armut', 2);  
+INSERT INTO greengrocer VALUES( 'Veli', 'Elma', 3);  
+INSERT INTO greengrocer VALUES( 'Ayse', 'Uzum', 2);
+
+SELECT * FROM greengrocer;
+
+
+SELECT isim, SUM(urun_miktar) toplam_kg
+FROM greengrocer
+GROUP BY isim;
+
+
+
+/*Senaryo 2: greengrocer tablosundaki tüm isimleri ve her bir isim için toplam ürün miktarını görüntüleyiniz.
+Toplam ürün miktarına göre azalan olarak sıralayınız.*/
+
+/*Scenario 2: Display all names in the greengrocer table and the total product quantity for each name.
+Sort in descending order by total product quantity.*/  
+
+-- ONCE GROUP BY CALISIR.
+SELECT isim, SUM(urun_miktar) toplam_kg
+FROM greengrocer
+GROUP BY isim
+ORDER BY SUM(urun_miktar) DESC;
+
+
+/*Senaryo 3: Her bir ismin aldığı, her bir ürünün toplam miktarını, isme göre sıralı görüntüleyiniz.*/
+/*Scenario 3: Display the total amount of each product purchased by each name, ordered by name.*/
+
+SELECT isim, urun_adi, SUM(urun_miktar) toplam_kg
+FROM greengrocer
+GROUP BY isim, urun_adi
+ORDER BY isim
+
+
+/*Senaryo 4: ürün adina göre, her bir ürünü alan toplam kişi sayısını gösteriniz.*/
+/*Scenario 4: by product name, show the total number of people who bought each product.*/
+
+SELECT urun_adi, COUNT(DISTINCT isim)kisi_sayisi
+FROM greengrocer
+GROUP BY urun_adi
+
+
+/*Senaryo 5: Isme göre, alınan toplam ürün miktarı ve ürün çeşit miktarını bulunuz*/
+/*Scenario 5: According to the name, find the total quantity of products received and the quantity of product types*/
+
+SELECT isim, sum(urun_miktar)toplam_kg, count(DISTINCT urun_adi)cesit_sayisi
+FROM greengrocer
+GROUP BY isim
+
+
+--ÖDEV: Alinan ürün miktarina gore musteri sayisinı görüntüleyiniz.
+--musteri sayisina göre artan sirada sıralayınız.
+

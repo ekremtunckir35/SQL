@@ -1,0 +1,91 @@
+--31- UNION - UNION ALL ifadesi
+
+CREATE TABLE developers(
+id SERIAL PRIMARY KEY,
+name varchar(50),
+email varchar(50) UNIQUE,
+salary real,
+prog_lang varchar(20),
+city varchar(50),
+age int	
+);
+
+
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Abdullah Berk','abdullah@mail.com',4000,'Java','Ankara',28);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Mehmet Cenk','mehmet@mail.com',5000,'JavaScript','Istanbul',35);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Ayşenur Han ','aysenur@mail.com',5000,'Java','Izmir',38);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Kübra Han','kubra@mail.com',4000,'JavaScript','Istanbul',32);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Muhammed Demir','muhammed@mail.com',6000,'Java','Izmir',25);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Fevzi Kaya','fevzi@mail.com',6000,'Html','Istanbul',28);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Enes Can','enes@mail.com',5500,'Css','Ankara',28);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Tansu Han','tansu@mail.com',5000,'Java','Bursa',32);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Said Ran','said@mail.com',4500,'Html','Izmir',33);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Mustafa Pak','mustafa@mail.com',4500,'Css','Bursa',32);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Hakan Tek','hakan@mail.com',7000,'C++','Konya',38);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Deniz Çetin','deniz@mail.com',4000,'C#','Istanbul',30);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Betül Çetin','btl@mail.com',4000,'C#','Bursa',29);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Ayse Gul','ayse@mail.com',4000,'C#','Ankara',29);
+INSERT INTO developers(name,email,salary,prog_lang,city,age) VALUES('Ali Seker','ali@mail.com',4000,'C#','Ankara',29);
+
+
+
+CREATE TABLE contact_info(
+address_id int,
+street varchar(30),
+number int,	
+city varchar(30),
+FOREIGN KEY(address_id) REFERENCES developers(id)	
+);
+
+INSERT INTO contact_info VALUES(1,'Kaya Sok.',5,'Bursa');
+INSERT INTO contact_info VALUES(2,'Kaya Sok.',3,'Ankara');
+INSERT INTO contact_info VALUES(3,'Can Sok.',10,'Bursa');
+INSERT INTO contact_info VALUES(4,'Gül Sok.',12,'Ankara');
+INSERT INTO contact_info VALUES(5,'Can Sok.',4,'Afyon');
+INSERT INTO contact_info VALUES(6,'Taş Sok.',6,'Bolu');
+INSERT INTO contact_info VALUES(7,'Dev Sok.',6,'Sivas');
+INSERT INTO contact_info VALUES(8,'Dev Sok.',8,'Van');
+
+
+SELECT * FROM developers;
+
+SELECT * FROM contact_info;
+
+SELECT * FROM employees4; 
+
+
+/*Senaryo 1: Ankara'da yaşayan developer ve İstanbul'da yaşayan çalışanların(employees4) isimlerini birlikte tekrarsız gösteren sorguyu yaziniz*/
+
+/*Scenario 1: Write the query that shows the names of the developer living in Ankara and the employees (employees4) living in Istanbul together without duplicates*/
+
+SELECT name FROM developers WHERE city = 'Ankara'
+
+
+SELECT isim FROM employees4 WHERE sehir = 'Istanbul'
+
+
+
+--developer ve çalışanların(employees4) isimlerini birlikte tekrarlı gösteren sorguyu yaziniz
+--Write the query that shows the names of developer and employees(employees4) repeatedly together
+
+
+
+/*Senaryo 2: Yaşı 25’den büyük olan developer isimlerini ve yaşı 30'dan küçük developerların kullandığı prog. dillerini birlikte tekrarlı gösteren sorguyu yaziniz*/
+
+/*Scenario 2: Write the query that shows the names of developers older than 25 and the prog. languages used by developers younger than 30 repeatedly together*/
+
+
+SELECT name AS name_prog_lang FROM developers WHERE age>25
+
+SELECT prog_lang FROM developers WHERE age < 30;
+
+
+
+SELECT name AS name_prog_lang FROM developers WHERE age>25
+UNION ALL
+SELECT prog_lang FROM developers WHERE age < 30;
+
+
+
+
+

@@ -1,0 +1,122 @@
+-- 28- ORDER BY 
+
+--28-ORDER BY: Kayıtları belirli bir field'e göre azalan/artan şekilde sıralamamızı sağlar.
+
+--VARSAYILAN olarak ASC(natural-artan-doğal) olarak sıralar
+
+/*ORDER BY komutu yalnızca SELECT sorgularıyla birlikte kullanılır çünkü amacı,
+
+bir sorgunun sonuç setini belirli kriterlere göre sıralamaktır.  INSERT, UPDATE ve DELETE komutlarıyla kullanılamaz.
+
+Bu komutlar, veritabanında veri eklemek, güncellemek veya silmek için kullanılır ve sonuç seti döndürmezler.*/
+
+
+DROP TABLE person;
+
+CREATE TABLE person
+(
+ssn char(9),
+isim varchar(50),
+soyisim varchar(50),  
+adres varchar(50)
+);
+
+INSERT INTO person VALUES(123456789, 'Ali','Can', 'Istanbul');
+INSERT INTO person VALUES(234567890, 'Veli','Cem', 'Ankara');  
+INSERT INTO person VALUES(345678901, 'Mine','Bulut', 'Ankara');  
+INSERT INTO person VALUES(256789012, 'Mahmut','Bulut', 'Istanbul'); 
+INSERT INTO person VALUES (344678901, 'Mine','Yasa', 'Ankara');  
+INSERT INTO person VALUES (345678901, 'Veli','Yilmaz', 'Istanbul');
+INSERT INTO person VALUES(256789018, 'Samet','Bulut', 'Izmir'); 
+INSERT INTO person VALUES(256789013, 'Veli','Cem', 'Bursa'); 
+INSERT INTO person VALUES(256789010, 'Samet','Bulut', 'Ankara'); 
+
+
+SELECT * FROM person;
+
+
+
+/*Senaryo 1: person tablosundaki tüm kayıtları adrese göre (artan sirada) sıralayarak listeleyiniz.*/
+/*Scenario 1: List all records in the person table sorted by address (in ascending order).*/
+
+
+SELECT *
+FROM person
+order by adres 
+
+
+SELECT *
+FROM person
+ORDER BY adres ASC --ASC natural siralama yapar (A_Z)
+
+
+/*Senaryo 2: person tablosundaki tüm kayıtları soyisime göre (azalan) sıralayarak listeleyiniz.*/
+/*Scenario 2: List all records in the person table sorted by surname (descending).*/
+
+SELECT *
+FROM person
+ORDER BY soyisim DESC
+
+
+
+
+
+/*Senaryo 3: person tablosundaki tüm kayıtları isme göre azalan, soyisme göre artan sekilde sıralayarak listeleyiniz.*/
+/*Scenario 3: List all records in the person table in descending order by first name and ascending order by surname.*/
+
+SELECT *
+FROM person
+ORDER BY isim DESC, soyisim ASC;
+
+
+/*Senaryo 4: person tablosunda isim ve soyisim değerlerini, soyisim kelime uzunluklarına göre sıralayarak listeleyiniz.*/
+/*Scenario 4: List the name and surname values in the person table, sorted by surname word lengths.*/
+
+SELECT isim,soyisim
+FROM person
+ORDER BY LENGTH(soyisim)
+
+
+SELECT isim,soyisim,LENGTH(soyisim) AS karakter_sayisi
+FROM person
+ORDER BY LENGTH(soyisim)
+
+
+
+/*Senaryo 5: person tablosunda, tüm isim ve soyisim değerlerini aralarında bir boşluk ile aynı sutunda çağırarak,
+
+her bir isim ve soyisim değerinin toplam uzunluğuna göre sıralayınız.*/
+
+/*Scenario 5: In the person table, call all first and last name values in the same column with
+a space between them and sort by the total length of each first and last name value.*/
+
+
+SELECT CONCAT(isim,' ',soyisim)AS isim_soyisim
+FROM person
+ORDER BY LENGTH(isim) + LENGTH(soyisim);
+
+
+SELECT CONCAT(isim,' ',soyisim)AS isim_soyisim,LENGTH(CONCAT(isim,soyisim)) karakter_sayisi
+FROM person
+ORDER BY LENGTH(CONCAT(isim,soyisim))
+
+
+/*Senaryo 6: employees4 tablosunda maaşı ortalama maaştan yüksek olan çalışanların
+
+isim,şehir ve maaşlarını maaşa göre artan sekilde sıralayarak listeleyiniz.*/
+
+/*Scenario 6: In table employees4, list the names, cities and salaries of employees
+whose salaries are higher than the average salary in ascending order by salary.*/
+
+
+SELECT * FROM employees4;
+
+SELECT AVG(maas) FROM employees4;
+
+
+SELECT isim, sehir, maas
+FROM employees4
+WHERE maas > (SELECT AVG(maas) FROM employees4)
+ORDER BY maas;
+
+

@@ -1,0 +1,29 @@
+--27- IS NULL CONDITION
+
+SELECT * FROM employees4
+
+
+--Ornek 1: employees4 tablosunda isim sütunu null olanları listeleyiniz.
+--Example 1: List those whose name column is null in the employees4 table.
+
+SELECT * FROM employees4
+WHERE isim ISNULL
+
+
+
+--Ornek 2: employees4 tablosunda isim sütunu null olmayanları listeleyiniz.
+--Example 2: List those whose name column is not null in the employees4 table.
+
+SELECT * FROM employees4
+WHERE isim IS NOT NULL
+
+
+--Ornek 3: employees4 tablosunda isim sütunu null olanların isim değerini 'isimsiz' olarak güncelleyiniz.
+--Example 3: Update the name value of those whose name column is null in the employees4 table to 'isimsiz'.
+
+UPDATE employees4
+SET isim = 'isimsiz'
+WHERE isim ISNULL
+
+
+

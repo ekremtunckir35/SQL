@@ -69,3 +69,46 @@ WHERE marka_id >= 102;
 /*Senaryo 4: brands tablosundaki tüm markaların calisan_sayisi değerlerini marka_id ile toplayarak güncelleyiniz.*/
 /*Scenario 4: Update the calisan_sayisi values of all brands in the brands table by adding them with marka_id.*/
 
+
+
+
+UPDATE brands
+SET calisan_sayisi = marka_id + calisan_sayisi;
+
+
+/*Senaryo 5: employees4 tablosundan Ali Seker’in isyerini, 567890123 id’li çalışanın isyeri ismi ile güncelleyiniz.*/
+/*Scenario 5: Update the workplace of Ali Seker from table employees4 with the workplace name of the employee with id 567890123.*/
+
+UPDATE employees4
+SET isyeri = (SELECT isyeri FROM employees4 WHERE id = 567890123)
+WHERE isim = 'Ali Seker';
+
+
+/*Senaryo 6: employees4 tablosunda maasi 1500 olanların isyerini, markalar tablosunda marka_id=100 olan markanın ismi ile değiştiriniz.*/
+
+/*Scenario 6: Replace the workplace of those with salary 1500 in the employees4 table with the name of the brand with marka_id=100 in the brands table.*/
+
+UPDATE  employees4
+SET isyeri = (SELECT marka_isim FROM brands WHERE marka_id =100)
+where maas = 1500;
+
+
+
+--employees4 tablosundaki isyeri 'Vakko' olanların sehir bilgisinin sonuna ' Şubesi' ekleyiniz.
+--Add ' Şubesi' at the end of the city information of those whose workplace is 'Vakko' in the employees4 table.
+
+--|| operatörü, SQL'de dizeleri birleştirmek (concatenate) için kullanılır. Java'daki + operatörü ile benzer işlevi görür.(concat) 
+
+
+UPDATE employees4
+SET sehir =sehir || ' Subesi'
+WHERE isyeri = 'Vakko';
+
+
+--alternatif , null i algilamnasi icin
+
+UPDATE employees4
+SET sehir = CONCAT(sehir, ' Subesi')
+WHERE isyeri = 'Vakko'
+
+SELECT * from employees4

@@ -1,0 +1,83 @@
+                                 ---30 HAVING ifadesi 
+								 
+-- grouplanmis veriler uzerinde filitreleme HAVING ile yapilir
+
+--where kayitlari filtreler, having sonuclari filtreler
+
+--group by olmadan having kullanilmasi anlamsiz.
+
+
+CREATE TABLE personel  (
+id int,
+isim varchar(50),
+sehir varchar(50), 
+maas int,  
+sirket varchar(20)
+);
+
+
+INSERT INTO personel VALUES(123456789, 'Ali Yilmaz', 'Istanbul', 5500, 'Honda'); 
+INSERT INTO personel VALUES(234567890, 'Veli Sahin', 'Istanbul', 4500, 'Toyota'); 
+INSERT INTO personel VALUES(345678901, 'Mehmet Ozturk', 'Ankara', 3500, 'Honda');
+INSERT INTO personel VALUES(456789012, 'Mehmet Ozturk', 'Izmir', 6000, 'Ford'); 
+INSERT INTO personel VALUES(567890123, 'Mehmet Ozturk', 'Ankara', 7000, 'Tofas');
+INSERT INTO personel VALUES(678901245, 'Veli Sahin', 'Ankara', 4500, 'Ford');  
+INSERT INTO personel VALUES(123456710, 'Hatice Sahin', 'Bursa', 4500, 'Honda');
+
+SELECT * FROM personel;
+
+
+
+/*Senaryo 1: Her bir şirketin MIN maas bilgisini, bu bilgi eğer 4000 den fazla ise görüntüleyiniz.*/
+/*Scenario 1: Display the MIN salary information for each company, if this information is more than 4000 */
+
+
+SELECT sirket, MIN(maas) min_maas
+FROM personel
+GROUP BY sirket
+
+
+SELECT sirket, MIN(maas) min_maas
+FROM personel
+GROUP BY sirket
+HAVING MIN(maas) > 4000;
+
+
+
+/*Senaryo 2: Maaşı 4000 den fazla olan çalışanlarin sirketlerini bulduktan sonra, bu sinirin ustunde olan MIN maas bilgisini her sirket icin görüntüleyiniz.*/
+
+/*Scenario 2: After finding the companies of employees with salaries over 4000, display the MIN salary information for each company above this limit.*/
+
+SELECT sirket, MIN(maas) min_maas
+FROM personel
+WHERE maas > 4000
+GROUP BY sirket
+
+
+/*Senaryo 3: Her bir ismin aldığı toplam gelir 10000 liradan fazla ise ismi ve toplam maasi gösteren sorgu yaziniz.*/
+/*Scenario 3: If the total income received by each name is more than 10000 liras, write a query showing the name and total salary.*/
+
+
+SELECT isim, SUM(maas) toplam_gelir
+FROM personel
+GROUP BY isim
+HAVING SUM(maas) > 10000;
+
+
+/*Senaryo 4: Eğer bir şehirde çalışan personel(id) sayısı 1’den çoksa, sehir 
+ismini ve personel sayısını veren sorgu yazınız*/
+
+/*Scenario 4: If the number of personnel(id) working in a city is more than 1, city 
+Write a query that gives the name and number of personnel */WHEN
+
+SELECT sehir, COUNT(id) kisi_sayisi
+FROM personel
+GROUP BY sehir
+HAVING COUNT(id) > 1;
+
+
+
+
+
+
+
